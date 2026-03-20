@@ -1,0 +1,10 @@
+# python虚拟环境
+.venv/
+# python缓存
+__pycache__/
+# pytest缓存
+.pytest_cache/
+# build相关的目录
+build/
+dist/
+*.spec
