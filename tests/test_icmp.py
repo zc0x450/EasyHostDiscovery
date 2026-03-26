@@ -9,7 +9,7 @@ def test_discover_icmp_serial_filters_found_ips(monkeypatch) -> None:
     def fake_icmp_ping(ip: str, timeout: float) -> bool:
         return ip in {"127.0.0.1", "127.0.0.2"}
 
-    monkeypatch.setattr(scanner_mod, "_icmp_ping", fake_icmp_ping)
+    monkeypatch.setattr(scanner_mod, "icmp_ping", fake_icmp_ping)
 
     result = asyncio.run(
         scanner_mod.discover(
@@ -28,7 +28,7 @@ def test_discover_icmp_concurrent_filters_found_ips(monkeypatch) -> None:
     def fake_icmp_ping(ip: str, timeout: float) -> bool:
         return ip in {"127.0.0.1", "127.0.0.2"}
 
-    monkeypatch.setattr(scanner_mod, "_icmp_ping", fake_icmp_ping)
+    monkeypatch.setattr(scanner_mod, "icmp_ping", fake_icmp_ping)
 
     result = asyncio.run(
         scanner_mod.discover(
@@ -45,13 +45,13 @@ def test_discover_icmp_concurrent_filters_found_ips(monkeypatch) -> None:
 
 def test_discover_icmp_proto_not_icmp_raises(monkeypatch) -> None:
     # 不用伪造 ping，只验证协议分支
-    monkeypatch.setattr(scanner_mod, "_icmp_ping", lambda ip, timeout: True)
+    monkeypatch.setattr(scanner_mod, "icmp_ping", lambda ip, timeout: True)
 
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(ValueError):
         asyncio.run(
             scanner_mod.discover(
                 targets="127.0.0.1",
-                proto="tcp",
+                proto="unknown",
                 port=80,
                 timeout=0.2,
                 concurrency=5,
