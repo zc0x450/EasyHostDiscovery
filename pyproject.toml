@@ -7,7 +7,9 @@ authors = [
     { name = "Chen Zhang", email = "aminodevis263@gmail.com" }
 ]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "scapy>=2.7.0",
+]
 
 [project.scripts]
 easyhostdiscovery = "easyhostdiscovery:main"
